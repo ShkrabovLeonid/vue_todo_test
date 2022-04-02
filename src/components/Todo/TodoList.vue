@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     ...mapMutations('todo', [
-      'addTodo', 'filterTodo'
+      'addTodo',
     ]),
     showName(e) {
       e.preventDefault();
@@ -104,23 +104,22 @@ export default {
       this.showEditName = false;
     },
     formatData: (data = []) => {
-      console.log('1');
-      const newData = Object.assign([], data);
-      for (let i = 0; i < newData.length; i++) {
-        newData[i].children = newData.filter((subItem) => {
-              if (newData[i].id === subItem.parent) {
+      for (let i = 0; i < data.length; i++) {
+        data[i].children = data.filter((subItem) => {
+              if (data[i].id === subItem.parent) {
                 return subItem;
               }
             }
         ).sort((a, b) => a.position - b.position);
       }
-      return newData.filter((item) => item.parent === 0).sort((a, b) => a.position - b.position);
+      return data.filter((item) => item.parent === 0).sort((a, b) => a.position - b.position);
     },
     filterTodo() {
+      const newTodoLists = JSON.parse(JSON.stringify(this.todoLists));
       if (!this.filterData) {
-        return this.formatData(this.todoLists);
+        return this.formatData(newTodoLists);
       } else {
-        return this.todoLists.filter((item) => {
+        return newTodoLists.filter((item) => {
           if (item.content.toLowerCase().includes(this.filterData.toLowerCase())) {
             return item;
           }

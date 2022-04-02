@@ -51,6 +51,14 @@ const mutations = {
     updatedTodo(state, todos) {
         state.todos = todos;
     },
+    updatedTodoStatus(state, id) {
+        state.todos = state.todos.map((item) => {
+            if (item.id === id) {
+                item.status = !item.status
+            }
+            return item;
+        })
+    },
     addTodo(state, todo) {
         state.todos.push(todo);
     },
@@ -63,7 +71,7 @@ const state = {
 }
 const getters = {
     getTodoList(state) {
-        return Object.assign([], state.todos);
+        return state.todos;
     }
 }
 

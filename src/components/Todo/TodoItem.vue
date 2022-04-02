@@ -2,34 +2,35 @@
   <li class="todo-item">
     <div class="todo-item__wrapper">
       <div class="todo-item__number">
-        <span>{{ todo.id }}</span>
+        <span>{{ data.id }}</span>
       </div>
       <div class="todo-item__content">
         <p class="todo-item__content-text">
-          {{ todo.content }}
+          {{ data.content }}
         </p>
       </div>
       <div class="todo-item__status">
         <input
-            v-model="todo.status"
+            v-model="todoStatus"
             type="checkbox"
             name="todo_status"
+            @input="updatedTodoStatus(data.id)"
         >
       </div>
       <div class="todo-item__delete">
         <Button
             text-button="Удалить"
             style-button="light"
-            @click="removeTodo(todo.id)"
+            @click="removeTodo(data.id)"
         />
       </div>
     </div>
     <ul
-        v-if="todo.children"
+        v-if="data.children"
         class="todo-item__children"
     >
       <TodoItem
-          v-for="todo_child in todo.children"
+          v-for="todo_child in data.children"
           :key="todo_child.id"
           :data="todo_child"
       />
@@ -54,12 +55,12 @@ export default {
   },
   data() {
     return {
-      todo: this.data
+      todoStatus: this.data.status
     }
   },
   methods: {
     ...mapMutations('todo', [
-      'removeTodo'
+      'removeTodo', 'updatedTodoStatus'
     ]),
   }
 }
